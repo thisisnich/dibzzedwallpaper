@@ -77,7 +77,9 @@ function init() {
     composer.addPass(glitchPass);
 
     // GUI Setup
-    const gui = new GUI({ width: '100%', closeOnTop: true, closed: true });
+    const gui = new GUI({ width: '100%'});
+    gui.domElement.id = 'background-gui';
+
 
     // Rotation Speed Controls
     gui.add(guiParams, 'rotationSpeedX', 0.0001, 0.05, 0.001).name('Rotation Speed X');

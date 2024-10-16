@@ -12,11 +12,21 @@ canvas {
     overflow: hidden;
 
 }
-
+#clock-gui{
+  position: absolute;
+  top: 1%;
+  right: 20%
+}
+#background-gui{
+  position: absolute;
+  top: 1%;
+  right: 1%
+}
 /* .dg.ac{
     position: absolute;
     z-index: 99999;
 } */
+
 
 .refresh-button button {
     color: white;

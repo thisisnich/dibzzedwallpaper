@@ -9,7 +9,7 @@ import { GUI } from 'https://cdn.skypack.dev/dat.gui';
 let clockElement = document.getElementById("MyClockDisplay");
 
 const guiParams = {
-    clockColour: "#ffffff",
+    clockColour: "#00ddff",
     bloomStrength: 1.5,
     bloomRadius: 0.5,
     bloomThreshold: 0,
@@ -42,8 +42,8 @@ let glitchPass = new GlitchPass();
 glitchPass.enabled = guiParams.activateGlitch;
 composer.addPass(glitchPass);
 
-const gui = new GUI();
-
+const gui = new GUI({width: '100%'});
+gui.domElement.id = 'clock-gui';
 gui.addColor(guiParams, 'clockColour').name('Clock Colour').onChange((color) =>{
     clockElement.style.color=color;
 });
