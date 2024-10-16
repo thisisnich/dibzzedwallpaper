@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    user-select: none;
+    background: #00000000;
+}
+canvas {
+    display: block;
+}
+.title {
+    position: absolute;
+    font-family: Arial;
+    color: #fff;
+    font-size: .8rem;
+    mix-blend-mode: normal;
+}
+.radio-group {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: white;
+    font-family: Arial;
+    font-size: 1rem;
+}
+
+.title._1 { top: 20px; left: 30px; }
+.title._2 { bottom: 20px; left: 30px; }
+.title._3 { bottom: 20px; right: 30px; cursor: pointer; }
+
+.clock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: #17D4FE;
+    font-size: 60px;
+    font-family: 'Orbitron';
+    letter-spacing: 7px;
+}
