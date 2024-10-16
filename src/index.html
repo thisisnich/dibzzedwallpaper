@@ -2,23 +2,66 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Shapes and 3D Models</title>
+        <title>Wallpaper</title>
         <!-- External CSS -->
         <link rel="stylesheet" href="css/main.css">
         <!-- External JS for Three.js scene -->
         <script type="module" src="js/background.js"></script>
         <!-- External JS for clock -->
         <script type="module" src="js/clock.js"></script>
+
         <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet'>
     </head>
     <body>
+
         <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+
+        <!-- Second Radio Group (Styled Radio Buttons) -->
         <div class="radio-group">
-            <label><input type="radio" name="shape" value="Sphere" checked> Sphere</label>
-            <label><input type="radio" name="shape" value="Cube"> Cube</label>
-            <label><input type="radio" name="shape" value="Torus"> Torus</label>
-            <label><input type="radio" name="shape" value="Monkey"> Monkey</label>
-            <label><input type="radio" name="shape" value="Car"> Car</label>
+            <div class="radio-wrapper">
+              <input class="input" name="shape" value="Sphere" type="radio" checked="true">
+              <div class="btn">
+                Sphere
+                <span class="btn__glitch" aria-hidden="">●SPHERE●</span>
+                <label class="rad-num">r1</label>
+              </div>
+            </div>
+            <div class="radio-wrapper">
+              <input class="input" name="shape" value="Cube" type="radio">
+              <div class="btn">
+                Cube
+                <span class="btn__glitch" aria-hidden="">▪C▪u▪b▪e▪</span>
+                <label class="rad-num">r2</label>
+              </div>
+            </div>
+            <div class="radio-wrapper">
+              <input class="input" name="shape" value="Torus" type="radio">
+              <div class="btn">
+                Torus<span aria-hidden=""></span>
+                <span class="btn__glitch" aria-hidden="">_T⬡rus_</span>
+                <label class="rad-num">r3</label>
+              </div> 
+            </div>
+            <div class="radio-wrapper">
+              <input class="input" name="shape" value="Monkey" type="radio">
+              <div class="btn">
+                Monkey<span aria-hidden=""></span>
+                <span class="btn__glitch" aria-hidden="">🐒Monkey🐒</span>
+                <label class="rad-num">r3</label>
+              </div> 
+            </div>
+            <div class="radio-wrapper">
+              <input class="input" name="shape" value="Car" type="radio">
+              <div class="btn">
+                _Car_<span aria-hidden=""></span>
+                <span class="btn__glitch" aria-hidden="">🚐C_A_R🚐</span>
+                <label class="rad-num">r3</label>
+              </div> 
+            </div>
+        </div>  
+        <div class="refresh-button">
+            <button id="refreshButton">Reset</button>
         </div>
+
     </body>
 </html>

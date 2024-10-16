@@ -112,12 +112,14 @@ function init() {
     gui.add(guiParams, 'dotScale', 0.1, 4, 0.1).onChange(value => {
         dotScreenPass.uniforms['scale'].value = value;
     });
+
     const radioGroup = document.querySelector('.radio-group');
     radioGroup.addEventListener('change', (event) => {
         guiParams.shape = event.target.value;
         updateObject();  // Update the scene with the selected shape/model
     });
-    // Load the initial shape (Sphere by default)
+    
+        // Load the initial shape (Sphere by default)
     updateObject();
 
     // Handle window resize
@@ -147,6 +149,10 @@ function updateObject() {
     }
 }
 
+const refreshButton = document.getElementById('refreshButton');
+    refreshButton.addEventListener('click', () => {
+    updateObject();  // Re-run updateObject to reset the current shape/model
+});
 function loadModel(modelPath) {
     loader.load(modelPath, function (gltf) {
         model = gltf.scene;
@@ -199,3 +205,12 @@ function animate() {
     controls.update();
     composer.render(scene, camera);
 }
+window.addEventListener('DOMContentLoaded', () => {
+    // Ensure the 'Sphere' radio button is checked by default on page load
+    const sphereRadioButton = document.querySelector('input[name="shape"][value="Sphere"]');
+    sphereRadioButton.checked = true;
+    
+    // Update the shape parameter to 'Sphere' and update the object
+    guiParams.shape = 'Sphere';
+    updateObject();  // Ensure the shape is set to Sphere when page loads
+});
