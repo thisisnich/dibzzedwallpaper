@@ -20,27 +20,12 @@ const guiParams = {
 
 };
 
-clockElement.style.color = guiParams.clockColour;
 
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.z=5;
-
-let renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-let composer = new EffectComposer(renderer);
-let bloomPass= new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), guiParams.bloomStrength, guiParams.bloomRadius, guiParams.bloomThreshold);
-composer.addPass(bloomPass);
-
-let dotScreenPass = new DotScreenPass();
-dotScreenPass.enabled = guiParams.activateDotScreen;
-composer.addPass(dotScreenPass);
-
-let glitchPass = new GlitchPass();
-glitchPass.enabled = guiParams.activateGlitch;
-composer.addPass(glitchPass);
+const simpleGui = new GUI({width: '100%'});
+simpleGui.domElement.id = 'simple-gui';
+simpleGui.add(guiParams, 'twentyFourHour').name('24H').onChange(() =>{
+    showTime();
+});
 
 const gui = new GUI({width: '100%'});
 gui.domElement.id = 'clock-gui';
@@ -53,33 +38,6 @@ gui.add(guiParams, 'twentyFourHour').name('24-Hour Format').onChange(() => {
 });
 
 
-
-// gui.add(guiParams, 'bloomStrength', 0, 3).onChange((value) => {
-//     bloomPass.strength = value;
-// });
-// gui.add(guiParams, 'bloomRadius', 0, 1).onChange((value) => {
-//     bloomPass.radius = value;
-// });
-// gui.add(guiParams, 'bloomThreshold', 0, 1).onChange((value) => {
-//     bloomPass.threshold = value;
-// });
-
-// // Glitch effect control
-// gui.add(guiParams, 'activateGlitch').onChange((value) => {
-//     glitchPass.enabled = value;
-// });
-
-// // DotScreen effect control
-// gui.add(guiParams, 'activateDotScreen').onChange((value) => {
-//     dotScreenPass.enabled = value;
-// });
-
-function animate() {
-    requestAnimationFrame(animate);
-    composer.render();
-}
-
-animate();
 
 function showTime() {
     const date = new Date();

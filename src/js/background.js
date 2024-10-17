@@ -12,7 +12,7 @@ let scene, camera, renderer, composer, bloomPass, controls, shapeMesh, model, gl
 let loader = new GLTFLoader();  // For loading GLTF models
 let guiParams = {
     deformAmount: 0.1,
-    transparency: 0.5,
+    transparency: 0.5,  // Transparency parameter
     bloomStrength: 3,
     bloomRadius: 0.4,
     bloomThreshold: 0,
@@ -77,9 +77,8 @@ function init() {
     composer.addPass(glitchPass);
 
     // GUI Setup
-    const gui = new GUI({ width: '100%'});
+    const gui = new GUI({ width: '100%' });
     gui.domElement.id = 'background-gui';
-
 
     // Rotation Speed Controls
     gui.add(guiParams, 'rotationSpeedX', 0.0001, 0.05, 0.001).name('Rotation Speed X');
@@ -87,8 +86,8 @@ function init() {
     gui.add(guiParams, 'rotationSpeedZ', 0.0001, 0.05, 0.001).name('Rotation Speed Z');
 
     // Transparency Control
-    gui.add(guiParams, 'transparency', 0, 1).onChange(value => {
-        if (shapeMesh) shapeMesh.material.opacity = value;
+    gui.add(guiParams, 'transparency', 0, 1).name('Transparency').onChange(value => {
+        updateTransparency(value);
     });
 
     // Bloom Controls
@@ -115,17 +114,35 @@ function init() {
         dotScreenPass.uniforms['scale'].value = value;
     });
 
+    // Event listener for radio buttons to change the shape or model
     const radioGroup = document.querySelector('.radio-group');
     radioGroup.addEventListener('change', (event) => {
         guiParams.shape = event.target.value;
         updateObject();  // Update the scene with the selected shape/model
     });
-    
-        // Load the initial shape (Sphere by default)
+
+    // Load the initial shape (Sphere by default)
     updateObject();
 
     // Handle window resize
     window.addEventListener('resize', onWindowResize);
+}
+
+// Function to update the transparency of both shapes and models
+function updateTransparency(value) {
+    if (shapeMesh) {
+        shapeMesh.material.transparent = true;
+        shapeMesh.material.opacity = value;
+    }
+    
+    if (model) {
+        model.traverse((child) => {
+            if (child.isMesh) {
+                child.material.transparent = true; // Ensure the material allows transparency
+                child.material.opacity = value;
+            }
+        });
+    }
 }
 
 function updateObject() {
@@ -139,7 +156,7 @@ function updateObject() {
         const geometry = shapes[guiParams.shape]();
         const material = new THREE.MeshPhongMaterial({
             color: 0xffffff,
-            wireframe: true,
+            wireframe: true,  // Ensure wireframe is set for shapes too
             transparent: true,
             opacity: guiParams.transparency
         });
@@ -152,18 +169,19 @@ function updateObject() {
 }
 
 const refreshButton = document.getElementById('refreshButton');
-    refreshButton.addEventListener('click', () => {
+refreshButton.addEventListener('click', () => {
     updateObject();  // Re-run updateObject to reset the current shape/model
 });
+
 function loadModel(modelPath) {
     loader.load(modelPath, function (gltf) {
         model = gltf.scene;
         model.scale.set(1, 1, 1);  // Adjust scale if necessary
 
-        // Create the same material used for the shapes
+        // Create the same material used for the shapes with wireframe enabled
         const newMaterial = new THREE.MeshPhongMaterial({
             color: 0xffffff,
-            wireframe: true,
+            wireframe: true,  // Ensure wireframe mode is enabled
             transparent: true,
             opacity: guiParams.transparency
         });
@@ -171,7 +189,7 @@ function loadModel(modelPath) {
         // Traverse the model and apply the new material to each mesh
         model.traverse((child) => {
             if (child.isMesh) {
-                child.material = newMaterial;
+                child.material = newMaterial;  // Apply the wireframe material
             }
         });
 
@@ -180,7 +198,6 @@ function loadModel(modelPath) {
         console.error('Error loading model:', error);
     });
 }
-
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -207,12 +224,3 @@ function animate() {
     controls.update();
     composer.render(scene, camera);
 }
-window.addEventListener('DOMContentLoaded', () => {
-    // Ensure the 'Sphere' radio button is checked by default on page load
-    const sphereRadioButton = document.querySelector('input[name="shape"][value="Sphere"]');
-    sphereRadioButton.checked = true;
-    
-    // Update the shape parameter to 'Sphere' and update the object
-    guiParams.shape = 'Sphere';
-    updateObject();  // Ensure the shape is set to Sphere when page loads
-});
